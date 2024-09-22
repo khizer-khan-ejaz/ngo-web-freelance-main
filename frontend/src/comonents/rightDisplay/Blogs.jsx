@@ -25,7 +25,7 @@ const Blogs = () => {
         setBlogLoading(true);
 
         const res = await axios({
-          url: "http://13.233.20.65:8080/api/blogs",
+          url: `${process.env.REACT_APP_BACKEND_URL}/api/blogs`,
           method: "get",
         })
 
@@ -50,8 +50,7 @@ const Blogs = () => {
     e.preventDefault();
     try {
       const res = await axios({
-        // url: `http://localhost:8080/api/blog/${blog._id}`,
-        url: `/api/blog/${blog._id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/blog/${blog._id}`,
         method: "delete",
         headers : {
           'Authorization': `Bearer ${token}`

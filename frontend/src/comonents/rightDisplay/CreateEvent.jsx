@@ -118,7 +118,7 @@ const CreateEvent = ({ setTotalEvents , setEvents }) => {
             formData.append("endTime" , JSON.stringify({...endTime , period : endTimePeriodRef.current.value}) );
 
             const res = await axios({
-                url : "http://3.110.255.102:8080/api/create/event",
+                url : `${process.env.REACT_APP_BACKEND_URL}/api/create/event`,
                 method : "post",
                 data : formData,
                 headers : {
@@ -219,8 +219,8 @@ const CreateEvent = ({ setTotalEvents , setEvents }) => {
                             <Stack>
                                 <Text> Starting time</Text>
                                 <Flex gap={"20px"}>
-                                    <Input value={startTime.timeValHour} onChange={(e)=> setStartTime({...startTime , timeValHour : e.target.value})} placeholder='hour' />
-                                    <Input value={startTime.timeValMinute} onChange={(e)=> setStartTime({...startTime , timeValMinute : e.target.value})}  placeholder='minute' />
+                                    <Input type='number' value={startTime.timeValHour} onChange={(e)=> setStartTime({...startTime , timeValHour : e.target.value})} placeholder='hour' />
+                                    <Input type='number' value={startTime.timeValMinute} onChange={(e)=> setStartTime({...startTime , timeValMinute : e.target.value})}  placeholder='minute' />
                                     <Select ref={startTimePeriodRef}>
                                         <option value="am">AM</option>
                                         <option value="pm">PM</option>
@@ -233,8 +233,8 @@ const CreateEvent = ({ setTotalEvents , setEvents }) => {
                             <Stack>
                                 <Text> Ending time</Text>
                                 <Flex gap={"20px"}>
-                                    <Input value={endTime.timeValHour} onChange={(e)=> setEndTime({...endTime , timeValHour : e.target.value})} placeholder='hour' />
-                                    <Input value={endTime.timeValMinute} onChange={(e)=> setEndTime({...endTime , timeValMinute : e.target.value})} placeholder='minute' />
+                                    <Input type='number' value={endTime.timeValHour} onChange={(e)=> setEndTime({...endTime , timeValHour : e.target.value})} placeholder='hour' />
+                                    <Input type='number' value={endTime.timeValMinute} onChange={(e)=> setEndTime({...endTime , timeValMinute : e.target.value})} placeholder='minute' />
                                     <Select ref={endTimePeriodRef}>
                                         <option value="am">AM</option>
                                         <option value="pm">PM</option>

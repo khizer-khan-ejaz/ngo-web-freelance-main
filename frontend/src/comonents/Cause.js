@@ -3,17 +3,18 @@ import axios from 'axios';
 import UseStateHook from '../hooks/UseStateHook';
 import PaginationFooter from './PaginationFooter';
 import OwlCarousel from 'react-owl-carousel';
-
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { format, formatDistanceToNow } from 'date-fns';
 
 const Cause = () => {
 
-  const { data, dataLoading } = UseStateHook("http://43.205.74.190:8080/api/cause");
+  const { data, dataLoading } = UseStateHook(`${process.env.REACT_APP_BACKEND_URL}/api/cause`);
   const [page, setPage] = useState(1);
 
   return (
     <div>
-    {!dataLoading &&   <section className="ftco-section bg-light">
+      <section className="ftco-section bg-light">
         <div className="container-fluid">
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-5 heading-section  text-center">
@@ -26,7 +27,7 @@ const Cause = () => {
               <OwlCarousel className='carousel-cause ' loop margin={5} nav>
 
 
-                {data.causes?.map((cause, index) => {
+                {data.causes?.slice(0,5).map((cause, index) => {
                   return <>
                     <div className="item">
                       <div className="cause-entry">
@@ -51,7 +52,7 @@ const Cause = () => {
           </div>
         </div>
 
-      </section>}
+      </section>
     </div>
   )
 }

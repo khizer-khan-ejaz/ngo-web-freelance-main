@@ -25,8 +25,7 @@ const Gallery = () => {
         setGalleryImagesLoading(true);
         const res = await axios({
           method: "get",
-          // url: "http://localhost:8080/api/gallery",
-          url: "/api/gallery",
+          url: `${process.env.REACT_APP_BACKEND_URL}/api/gallery`,
         })
 
         const data = res.data;
@@ -47,7 +46,7 @@ const Gallery = () => {
   const handleGalleryImageDelete = async (image) => {
     try {
       const res = await axios({
-        url: `http://13.233.20.65:8080/api/gallery/delete/${image._id}`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/gallery/delete/${image._id}`,
         method: "delete",
         headers : {
           'Authorization': `Bearer ${token}`

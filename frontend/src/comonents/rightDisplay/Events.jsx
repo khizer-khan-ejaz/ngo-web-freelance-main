@@ -37,8 +37,7 @@ const Events = () => {
       e.preventDefault();
 
       const res = await axios({
-        // url : `http://localhost:8080/api/event/${event._id}`,
-        url : `/api/event/${event._id}`,
+        url : `${process.env.REACT_APP_BACKEND_URL}/api/event/${event._id}`,
         method : "delete",
         headers : {
           'Authorization': `Bearer ${token}`
@@ -77,7 +76,7 @@ const Events = () => {
       try {
         setEventLoading(true);
         const res = await axios({
-          url: "http://13.233.20.65:8080/api/events",
+          url: `${process.env.REACT_APP_BACKEND_URL}/api/events`,
           method: "get",
         })
 

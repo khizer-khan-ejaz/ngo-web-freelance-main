@@ -22,7 +22,7 @@ const PaginationFooter = ({ page , setPage , data}) => {
 
   return (
     <div className='bg-white'>
-        <div className='w-[100%] border border- flex justify-center items-center gap-2 h-[80px] '>
+        <div className='w-[100%] border border-black flex justify-center items-center gap-2 h-[80px] '>
       <span onClick={decrementPage} className=' rounded-md cursor-pointer p-2 bg-gray-700 text-white  '> <FaChevronLeft/> </span>
 
       <div className='flex  gap-[15px] h-[40px] justify-center items-center  '>
