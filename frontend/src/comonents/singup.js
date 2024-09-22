@@ -32,7 +32,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://13.233.20.65:8080/api/admin/signup", formData);
+      const response = await axios.post("http://43.205.74.190:8080/api/admin/signup", formData);
       console.log("Signup successful:", response.data);
     } catch (error) {
       console.error("Signup failed:", error);
