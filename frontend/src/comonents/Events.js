@@ -3,7 +3,7 @@ import UseStateHook from '../hooks/UseStateHook';
 import PaginationFooter from './PaginationFooter';
 
 const Events = () => {
-  const { data, dataLoading } = UseStateHook("http://3.110.255.102:8080/api/events");
+  const { data, dataLoading } = UseStateHook("http://13.233.20.65:8080/api/events");
   const [page, setPage] = useState(1);
 
   // Check if data and data.events are defined

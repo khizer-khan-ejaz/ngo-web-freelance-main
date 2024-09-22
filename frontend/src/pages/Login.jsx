@@ -92,7 +92,7 @@ function Login() {
         try {
             setLoginLoading(true);
             const res = await axios({
-                url: "http://3.110.255.102:8080/api/admin/login",
+                url: "http://13.233.20.65:8080/api/admin/login",
                 method: "post",
                 data: { email: loginDetails.email, password: loginDetails.password },
                 headers: {

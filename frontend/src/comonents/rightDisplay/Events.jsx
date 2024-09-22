@@ -77,7 +77,7 @@ const Events = () => {
       try {
         setEventLoading(true);
         const res = await axios({
-          url: "http://3.110.255.102:8080/api/events",
+          url: "http://13.233.20.65:8080/api/events",
           method: "get",
         })
 

@@ -47,7 +47,7 @@ const Gallery = () => {
   const handleGalleryImageDelete = async (image) => {
     try {
       const res = await axios({
-        url: `http://3.110.255.102:8080/api/gallery/delete/${image._id}`,
+        url: `http://13.233.20.65:8080/api/gallery/delete/${image._id}`,
         method: "delete",
         headers : {
           'Authorization': `Bearer ${token}`
