@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import UseStateHook from '../hooks/UseStateHook';
 
 const Gallery = () => {
-    const { data, dataLoading } = UseStateHook("http://localhost:8080/api/gallery");
+    const { data, dataLoading } = UseStateHook("http://3.110.255.102:8080/api/gallery");
 
     return (
         <div>

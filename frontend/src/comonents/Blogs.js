@@ -3,7 +3,7 @@ import UseStateHook from '../hooks/UseStateHook';
 import PaginationFooter from './PaginationFooter';
 
 const Blogs = () => {
-    const { data, dataLoading } = UseStateHook("http://localhost:8080/api/blogs");
+    const { data, dataLoading } = UseStateHook("http://3.110.255.102:8080/api/blogs");
     const [page, setPage] = useState(1);
 
     if (dataLoading) {

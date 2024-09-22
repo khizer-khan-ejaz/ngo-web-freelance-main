@@ -24,26 +24,14 @@ const Nav = () => {
       <nav className="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
         <div className="container text-light">
           <div className="w-100 d-flex justify-content-between">
+            
             <div>
-              <i className="fa fa-envelope mx-2"></i>
-              <a className="navbar-sm-brand text-light text-decoration-none" href="mailto:phrms.soc@gmail.com">phrms.soc@gmail.com</a>
-              <i className="fa fa-phone mx-2"></i>
-              <a className="navbar-sm-brand text-light text-decoration-none" href="tel:7428089818">7428089818</a>
-            </div>
-            <div>
-              <a className="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored">
-                <FaFacebookSquare />
-              </a>
-              <a className="text-light" href="https://www.instagram.com/" target="_blank">
-                <FaInstagramSquare />
-              </a>
-              <a className="text-light" href="https://www.youtube.com/" target="_blank">
-                <FaYoutubeSquare />
-              </a>
+            
             </div>
           </div>
         </div>
       </nav>
+
 
       <nav className="main-nav">
         <div className="logo">

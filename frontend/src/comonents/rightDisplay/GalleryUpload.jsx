@@ -61,7 +61,7 @@ const GalleryUpload = ({setGalleryImages , galleryImages , setTotalGalleryImages
 
 
             const res = await axios({
-                url : "http://localhost:8080/api/gallery/upload",
+                url : "http://3.110.255.102:8080/api/gallery/upload",
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

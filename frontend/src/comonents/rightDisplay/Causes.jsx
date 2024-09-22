@@ -63,7 +63,7 @@ const Causes = () => {
     try{
 
       const res = await axios({
-        url : `http://localhost:8080/api/cause/${cause._id}`,
+        url : `http://3.110.255.102:8080/api/cause/${cause._id}`,
         method : "delete",
         headers : {
           'Authorization': `Bearer ${token}`

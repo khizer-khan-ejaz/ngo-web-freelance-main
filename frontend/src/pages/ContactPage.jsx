@@ -37,19 +37,18 @@ Collaborations with Schools: The organization works with schools to integrate he
         </div>
         <div className="w-100" />
         <div className="col-md-3">
-          <p>
-            <span>Address:</span> 198 West 21th Street, Suite 721 New York NY
-            10016
+          <p style={{color:"green"}}>
+            <span>Address:</span> C-145, Hardevpuri, Delhi
           </p>
         </div>
         <div className="col-md-3">
           <p>
-            <span>Phone:</span> <a href="tel://7428089818">7428089818</a>
+            <span>Phone:</span> <a href="tel://7428089818" style={{color:"green"}}>7428089818</a>
           </p>
         </div>
         <div className="col-md-3">
           <p>
-            <span>Email:</span>{" "}
+            <span>Email:</span>
             <a href="mailto:phrms.soc@gmail.com">phrms.soc@gmail.com</a>
           </p>
         </div>

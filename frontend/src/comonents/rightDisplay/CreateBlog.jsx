@@ -100,7 +100,7 @@ const CreateBlog = ({blogs , setBlogs , setTotalBlogs}) => {
               formData.append("year" , eventDate.year);
   
               const res = await axios({
-                  url : "http://localhost:8080/api/blog/upload",
+                  url : "http://3.110.255.102:8080/api/blog/upload",
                   method : "post",
                   headers: {
                     'Authorization': `Bearer ${token}`

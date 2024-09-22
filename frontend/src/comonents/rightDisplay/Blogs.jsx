@@ -25,7 +25,7 @@ const Blogs = () => {
         setBlogLoading(true);
 
         const res = await axios({
-          url: "http://localhost:8080/api/blogs",
+          url: "http://3.110.255.102:8080/api/blogs",
           method: "get",
         })
 

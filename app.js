@@ -3,58 +3,56 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ConnectDB } from "./utils/connectDB.js";
-import {router as Router} from "./routes/route.js";
-import {v2 as cloudinary} from "cloudinary";
+import { router as Router } from "./routes/route.js";
+import { v2 as cloudinary } from "cloudinary";
 import path from "path";
-import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to a file path
-const __dirname = path.resolve();
-
+// Load environment variables
 dotenv.config();
 
-const PORT = process.env.PORT;
-
+const PORT = process.env.PORT || 8080;
 const app = express();
 
+// Set up CORS
 app.use(cors({
     origin: "*",
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
 
-
+// Middleware for parsing requests
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cookieParser());
-const _dirname=path.dirname("");
-const buildpath=path.join(_dirname,"/frontend/build");
-app.use(express.static(buildpath));
+
+// Connect to the database
 ConnectDB();
 
-// setting up cloudinary
+// Configure Cloudinary
 cloudinary.config({
-    cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
-    api_key : process.env.CLOUDINARY_API_KEY ,
-    api_secret : process.env.CLOUDINARY_API_SECRET,
-})
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-app.use("/api" , Router);
+// Define API routes
+app.use("/api", Router);
 
+// Serve the frontend build files
+const __dirname = path.resolve(); // Ensures correct dirname usage for ES Modules
+const buildPath = path.join(__dirname, "/frontend/build");
+app.use(express.static(buildPath));
 
-// app.use(express.static(path.join(__dirname , "/frontend/build")));
-// app.get("*", function(_, res) { 
- 
-//   try{
-//     res.sendFile(path.join(__dirname , "/frontend" , "/build" , "/index.html"));
-//   }catch(err){
-//     console.log(err.message);
-//   }
-//   });
+// Catch-all route to serve index.html for client-side routing (React Router)
+app.get("*", (req, res) => {
+    res.sendFile(path.join(buildPath, "index.html"), (err) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+    });
+});
 
-
-  
-
-app.listen(PORT , ()=>{
-    console.log("server online on port " , PORT);
-})
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});

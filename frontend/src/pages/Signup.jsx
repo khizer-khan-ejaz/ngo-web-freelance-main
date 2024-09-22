@@ -88,7 +88,7 @@ function Signup() {
       setSignupLoading(true);
 
       const res = await axios({
-        url : "http://localhost:8080/api/admin/signup",
+        url : "http://3.110.255.102:8080/api/admin/signup",
         method : "post",
         data : {name : signupDetails.name , email : signupDetails.email , password : signupDetails.password},
         headers: {
