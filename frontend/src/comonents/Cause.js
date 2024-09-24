@@ -3,8 +3,7 @@ import axios from 'axios';
 import UseStateHook from '../hooks/UseStateHook';
 import PaginationFooter from './PaginationFooter';
 import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+
 import { format, formatDistanceToNow } from 'date-fns';
 
 const Cause = () => {
@@ -14,7 +13,7 @@ const Cause = () => {
 
   return (
     <div>
-      <section className="ftco-section bg-light">
+    {!dataLoading &&   <section className="ftco-section bg-light">
         <div className="container-fluid">
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-5 heading-section  text-center">
@@ -27,7 +26,7 @@ const Cause = () => {
               <OwlCarousel className='carousel-cause ' loop margin={5} nav>
 
 
-                {data.causes?.slice(0,5).map((cause, index) => {
+                {data.causes?.map((cause, index) => {
                   return <>
                     <div className="item">
                       <div className="cause-entry">
@@ -52,7 +51,7 @@ const Cause = () => {
           </div>
         </div>
 
-      </section>
+      </section>}
     </div>
   )
 }
