@@ -50,7 +50,8 @@ const Blogs = () => {
     e.preventDefault();
     try {
       const res = await axios({
-        url: `${process.env.REACT_APP_BACKEND_URL}/api/blog/${blog._id}`,
+        // url: `http://localhost:8080/api/blog/${blog._id}`,
+        url: `/api/blog/${blog._id}`,
         method: "delete",
         headers : {
           'Authorization': `Bearer ${token}`
