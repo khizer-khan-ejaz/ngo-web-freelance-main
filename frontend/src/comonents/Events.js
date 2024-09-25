@@ -6,14 +6,20 @@ const Events = () => {
   const { data, dataLoading } = UseStateHook(`${process.env.REACT_APP_BACKEND_URL}/api/events`);
   const [page, setPage] = useState(1);
 
-  // Check if data and data.events are defined
+  // Loading state
   if (dataLoading) {
-    return <p>Loading...</p>; // You can replace this with a loading spinner if you prefer
+    return <p>Loading...</p>; // Optionally, you can replace this with a loading spinner
   }
 
+  // Error state for no events
   if (!data || !data.events || data.events.length === 0) {
-    return <p>No events available.</p>; // Handle cases where no events are available
+    return <p>No events available.</p>;
   }
+
+  // Calculate the index for the current page of events
+  const startIndex = (page - 1) * 6;
+  const endIndex = startIndex + 6;
+  const currentEvents = data.events.slice(startIndex, endIndex);
 
   return (
     <>
@@ -26,20 +32,35 @@ const Events = () => {
               </div>
             </div>
             <div className="row">
-              {data.events.slice((page - 1) * 6, page * 6).map((event, index) => (
+              {currentEvents.map((event, index) => (
                 <div key={index} className="col-md-4 d-flex">
                   <div className="blog-entry align-self-stretch">
-                    <a href="event-single.html" className="block-20" style={{ backgroundImage: `url(${event.img})` }}>
-                    </a>
+                    <a
+                      href="event-single.html"
+                      className="block-20"
+                      style={{ backgroundImage: `url(${event.img})` }}
+                    />
                     <div className="text p-4 d-block">
                       <div className="meta mb-3">
-                        <div><a href="#">{event.eventDate.month}. {event.eventDate.day}, {event.eventDate.year}</a></div>
+                        <div>
+                          <a href="#">
+                            {event.eventDate?.month}. {event.eventDate?.day}, {event.eventDate?.year}
+                          </a>
+                        </div>
                         <div><a href="#">Admin</a></div>
-                        <div><a href="#" className="meta-chat"><span className="icon-chat"></span> 3</a></div>
+                        <div>
+                          <a href="#" className="meta-chat">
+                            <span className="icon-chat"></span> 3
+                          </a>
+                        </div>
                       </div>
                       <h3 className="heading mb-4"><a href="#">{event.title}</a></h3>
                       <p className="time-loc">
-                        <span className="mr-2"><i className="icon-clock-o"></i> {event.startTime.timeValHour}:{event.startTime.timeValMinute}{event.startTime.period} - {event.endTime.timeValHour}:{event.endTime.timeValMinute}{event.endTime.period}</span>
+                        <span className="mr-2">
+                          <i className="icon-clock-o"></i> 
+                          {event.startTime?.timeValHour}:{event.startTime?.timeValMinute} {event.startTime?.period} - 
+                          {event.endTime?.timeValHour}:{event.endTime?.timeValMinute} {event.endTime?.period}
+                        </span>
                         <span><i className="icon-map-o"></i> Venue Main Campus</span>
                       </p>
                       <p>{event.desc}</p>
