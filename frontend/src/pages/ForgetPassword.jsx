@@ -24,7 +24,7 @@ const ForgetPassword = () => {
             }
 
             const res = await axios({
-                url : "http://3.110.255.102:8080/api/admin/forgot/password",
+                url :  `${process.env.REACT_APP_BACKEND_URL}/api/admin/forgot/password`,
                 method : "post",
                 data : {email , password : passRef.current.value}
             })
