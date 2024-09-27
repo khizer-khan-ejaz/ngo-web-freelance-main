@@ -1,152 +1,183 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import axios from "axios";
-import { Button, Flex, SimpleGrid, Spinner, Collapse, Text, Box } from '@chakra-ui/react';
-import { MdCancel } from "react-icons/md";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
+import { Button, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import CreateEvent from './CreateEvent';
-import DeleteButton from './DeleteButton';
+import { Box, Collapse, Text } from "@chakra-ui/react";
 import { Context } from '../../context/Context';
+import DeleteButton from './DeleteButton';
+import { MdCancel, MdDelete } from "react-icons/md";
 import useToast from "../../hooks/useToast";
 
 const Events = () => {
-  const { showSuccess, showError } = useToast();
-  const { user, setTotalEvents } = useContext(Context);
-  const token = user.token;
 
+  const{showSuccess , showError} = useToast();
+  const{user} = useContext(Context);
+  const token = user.token;
+  const { setTotalEvents } = useContext(Context);
   const [events, setEvents] = useState([]);
   const [eventLoading, setEventLoading] = useState(false);
+  const [show, setShow] = React.useState(false);
   const [collapseState, setCollapseState] = useState([]);
   const [deleteActivate, setDeleteActive] = useState(false);
 
   const handleToggle = (index) => {
-    setCollapseState(prev => {
-      const newState = [...prev];
+
+    setCollapseState((prev) => {
+      let newState = [...prev];
       newState[index] = !newState[index];
       return newState;
-    });
-  };
+    })
+  }
 
-  const handleDelete = async (e, event) => {
-    e.preventDefault();
-    try {
-      const res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/event/${event._id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+  const handleDelete = async(e , event)=>{
+    try{
+
+      e.preventDefault();
+
+      const res = await axios({
+        // url : `http://localhost:8080/api/event/${event._id}`,
+        url : `/api/event/${event._id}`,
+        method : "delete",
+        headers : {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      
       const data = res.data;
-
-      if (data.error) {
+      if(data.error){
         showError(data.error);
+        console.log(data.error);
         return;
       }
 
-      setEvents(prev => prev.filter(item => item._id !== event._id));
-      setTotalEvents(prev => {
-        localStorage.setItem("totalEvents", prev - 1);
-        return prev - 1;
+      setTotalEvents(prev=>{
+        localStorage.setItem("totalEvents" , prev-1);
+        return prev-1;
       });
+      
+      setEvents(prev=>{
+        return prev.filter(item=> item._id != event._id);
+      })
 
       showSuccess(data.success);
-    } catch (err) {
+
+    }catch(err){
       showError(err.message);
+      console.log(err.message);
+      return;
     }
-  };
+  }
+
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      setEventLoading(true);
+
+    (async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/events`);
+        setEventLoading(true);
+        const res = await axios({
+          url: "http://3.110.255.102:8080/api/events",
+          method: "get",
+        })
+
         const data = res.data;
+        console.log(data);
         setEvents(data.events);
+
         setTotalEvents(data.events.length);
         localStorage.setItem("totalEvents", data.events.length);
+        setCollapseState(prev => {
+          return data.events.map(item => false);
+        })
 
-        // Initialize collapse state
-        setCollapseState(new Array(data.events.length).fill(false));
       } catch (err) {
-        showError(err.message);
+        console.log(err.message);
       } finally {
         setEventLoading(false);
       }
-    };
+    })()
 
-    fetchEvents();
-  }, [showError, setTotalEvents]);
+  }, []);
+
 
   if (eventLoading) {
-    return (
-      <Flex h="50px" justifyContent="center" alignItems="center">
-        <Spinner size="xl" />
-      </Flex>
-    );
+    return <Flex h={"50px"} justifyContent={"center"} alignItems={"center"} >
+      <Spinner size={"xl"} />
+    </Flex>
   }
 
+
+
   return (
-    <div className="scroller h-[100%] w-[100%] md:w-[80vw] box-border">
-      {/* Delete Button */}
-      <div className="flex justify-end w-[100%] transition-all duration-500 mt-2">
+    <div className=' scroller h-[100%] w-[100%] md:w-[80vw] box-border'>
+
+      <div className='flex justify-end w-[100%] transition-all duration-500 mt-2'>
+        {/* <Button transition={"all 0.5s ease-in-out"} _hover={{ bg: "red.400" }} ml={"auto"} bg={"red"} color={"white"} display={"flex"} gap={"5px"} justifyContent={"center"} alignItems={"center"} >  <Text display={{ base: "none", md: "inline" }} > Delete </Text>  <span> <MdDelete /> </span> </Button> */}
         <DeleteButton setDeleteActivate={setDeleteActive} />
       </div>
 
-      {/* Event Grid */}
-      <div className="w-[100%] flex justify-center items-center mt-2">
-        <SimpleGrid boxSizing="border-box" p="10px" w={{ base: "70%", md: "60%", lg: "100%" }} minChildWidth="250px" spacing="20px">
-          {events.map((event, index) => (
-            <Box key={event._id} bg="white" w="100%" maxW="400px" shadow="md" className="transition-all duration-500 flex flex-col justify-center items-center">
-              {/* Delete Icon */}
-              <Box className={`${deleteActivate ? "inline" : "hidden"} w-[100%] flex transition-all duration-500`}>
-                <MdCancel
-                  onClick={(e) => handleDelete(e, event)}
-                  cursor="pointer"
-                  size="25px"
-                  className="ml-auto transition-all duration-500 hover:text-red-500"
-                />
-              </Box>
+      <div className='w-[100%]  flex justify-center items-center mt-2'>
+        <SimpleGrid boxSizing='border-box' p={"10px"} w={{ base: "70%", md: "60%", lg: "100%" }} minChildWidth={"250px"} spacing={"20px"}   >
 
-              {/* Event Image */}
-              <Box w="100%" h="220px" display="flex" justifyContent="center" alignItems="center">
-                <img src={event.img} alt={event.img} className="h-[100%] w-[100%] object-cover" />
-              </Box>
+          {events.map((event, index) => {
+            return <div className='bg-white  w-[100%] flex flex-col justify-center items-center lg:max-w-[400px] shadow-md'>
 
-              {/* Event Details */}
-              <Box position="relative" top="-20px" p="20px" w="95%" bg="white">
-                <Text fontSize={{ base: "18px", lg: "25px" }} color="gray.400">
-                  {event.title}
-                </Text>
+              <div className={` ${deleteActivate ? "inline" : "hidden"} w-[100%] flex transition-all duration-500`}>
+                <MdCancel onClick={(e) => handleDelete(e, event)} cursor={"pointer"} size={"25px"} className='ml-auto transition-all duration-500  hover:text-red-500 ' />
+              </div>
 
-                <Flex gap="8px" color="gray.600" fontSize={{ base: "12px", lg: "15px" }}>
-                  <span>{event.eventDate.day}</span>
-                  <span>{event.eventDate.month}</span>
-                  <span>{event.eventDate.year}</span>
-                </Flex>
+              {/* image part */}
+              <div className='w-[100%]  md:h-[220px] lg:h-[220px]  flex justify-center items-center '>
+                <img className='  h-[100%] w-[100%] object-cover' src={event.img} alt={event.img}  />
+              </div>
 
-                <Flex gap="8px" color="gray.500" fontSize={{ base: "12px", md: "15px" }}>
-                  <span>{event.startTime.timeValHour}:{event.startTime.timeValMinute}</span>
-                  <span>-</span>
-                  <span>{event.endTime.timeValHour}:{event.endTime.timeValMinute}</span>
-                </Flex>
+              {/* details part */}
+              <div className=' relative -top-[20px] p-[20px]  flex-1 bg-white w-[95%]'>
 
-                {/* Collapsible Description */}
-                <Box className={`scroller overflow-scroll ${collapseState[index] ? "h-auto" : "max-h-[120px]"}`}>
-                  <Text fontSize={{ base: "md", lg: "xl" }} color="gray.400" fontWeight="500">{event.venue}</Text>
-                  <Collapse startingHeight={20} in={collapseState[index]}>
-                    <Text fontSize={{ base: "14px", md: "16px" }}>{event.desc}</Text>
+                <div className='text-gray-400'>
+                  <h1 className='lg:text-[25px]   text-[18px]'>{event.title}</h1>
+                </div>
+
+                <div className='flex gap-[8px] text-gray-600 '>
+                  <span className='text-gray-600 text-[12px] lg:text-[15px] ' >{event.eventDate.day}</span>
+                  <span className='text-gray-600 text-[12px] lg:text-[15px] ' >{event.eventDate.month}</span>
+                  <span className='text-gray-600 text-[12px] lg:text-[15px] ' >{event.eventDate.year}</span>
+                </div>
+
+                <div>
+                  <span className='text-gray-500 font-[400] text-[12px] md:text-[15px] '>{event.startTime.timeValHour} : {event.startTime.timeValMinute}</span>
+                  <span className='text-gray-500 font-[400] text-[12px] md:text-[15px] '>-</span>
+                  <span className='text-gray-500 font-[400] text-[12px] md:text-[15px] '> {event.endTime.timeValHour} : {event.endTime.timeValMinute} </span>
+                </div>
+
+                <div className={` px-[15px] py-[8px] scroller overflow-scroll ${collapseState[index] ? "h-auto" : "max-h-[120px]"} `}>
+                  <h1 className='text-gray-400 font-[500] text-md lg:text-xl' >{event.venue}</h1>
+
+
+                  {/* collapse feature */}
+                  <Collapse startingHeight={20} in={collapseState[index]} >
+                    <p className='text-[14px] md:text-[16px]'> {event.desc} </p>
                   </Collapse>
-                  <Button size="sm" mt="1rem" onClick={() => handleToggle(index)}>
+                  <Button size="sm" onClick={() => handleToggle(index)} mt="1rem">
                     Show {collapseState[index] ? "Less" : "More"}
                   </Button>
-                </Box>
-              </Box>
-            </Box>
-          ))}
+
+                </div>
+
+
+              </div>
+
+
+
+            </div>
+          })}
+
         </SimpleGrid>
       </div>
-
-      {/* Create Event Component */}
       <CreateEvent setTotalEvents={setTotalEvents} setEvents={setEvents} />
     </div>
-  );
-};
+  )
+}
 
-export default Events;
+export default Events

@@ -92,7 +92,7 @@ function Login() {
         try {
             setLoginLoading(true);
             const res = await axios({
-                url:  `${process.env.REACT_APP_BACKEND_URL}/api/admin/login`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/api/admin/login`,
                 method: "post",
                 data: { email: loginDetails.email, password: loginDetails.password },
                 headers: {
@@ -149,16 +149,16 @@ function Login() {
 
 
                         {/* left part for image */}
-                        <div className="hidden sm:flex  flex-[45%] rounded-[40px] overflow-hidden  justify-center items-center  ">
+                        <div className="hidden sm:flex  w-[45%] rounded-[40px] overflow-hidden  justify-center items-center  ">
                             <img className="max-h-[450px]" src="/images/login.jpg" alt="signup-image" />
                         </div>
 
                         {/* right part for form */}
-                        <div className=" min-w-[300px] rounded-[40px] relative flex-[55%] flex gap-5   flex-col  items-center  p-5 ounded-[40px]">
+                        <div className=" min-w-[300px] rounded-[40px] relative w-[100%] md:w-[55%] flex gap-5   flex-col  items-center p-2 md:p-5 ounded-[40px]">
 
                             <h1 className=" text-[18px]  lg:text-2xl text-gray-700 ">Login</h1>
 
-                            <div className="flex  w-full   flex-col p-3 gap-4">
+                            <div className="flex  w-full md:w-[90%]   flex-col p-3 gap-4">
 
                                 <div className="relative flex w-full justify-center items-center">
                                     <input value={loginDetails.email} onChange={(e) => setLoaginDetails({ ...loginDetails, email: e.target.value })} className=" w-full  p-3  bg-gray-50 outline-none focus:bg-white  rounded-md border shadow-md   border-gray-300 " type="email" placeholder="enter email" />
